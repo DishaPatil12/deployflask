@@ -1,0 +1,1408 @@
+import openpyxl
+from re import A, search
+from openpyxl.styles import Font
+from openpyxl.styles import PatternFill
+
+# ===============================================================COMPANY DETAILS==============================================================
+cin=[]
+companyName=[]
+age=[]
+companyType=[]
+companySubCategory=[]
+emailID=[]
+activeCompliance=[]
+companyAddress=[]
+dateOfBalanceSheet=[]
+paidUpCapital=[]
+# ==============================================================KMP DIRECTORS=================================================================
+
+
+companyDirectorsKMPString= "COMPANY DIRECTORS"
+dinKMPString="DIRECTOR DIN"
+designationKMPString="DESIGNATION"
+appointmentDateKMPString="APPOINTMENT DATE"
+sharesHoldingKMPString="SHARE HOLDING"
+
+
+companyDirectorsKMP=[]
+dinKMP=[]
+designationKMP=[]
+appointmentDateKMP=[]
+sharesHoldingKMP =[]
+
+# ================================================================PAST DIRECTORS/ PAST SIGNATORIES==============================
+pastCompanyDirectorsKMPString= "COMPANY DIRECTORS"
+pastDinKMPString="DIRECTOR DIN"
+pastDesignationKMPString="DESIGNATION"
+pastAppointmentDateKMPString="APPOINTMENT DATE"
+pastCessationDateString="CESSASTION DATE"
+
+pastCompanyDirectorsKMP=[]
+pastDinKMP=[]
+pastDesignationKMP=[]
+pastAppointmentDateKMP=[]
+pastCessationDateKMP =[]
+# ==========================================================================SIGNATORY DETAILS=================================
+nameSignatoryDetailsString= "NAME"
+PANSignatoryDetailsString="RATING DATE"
+designationSignatoryDetailsString="INSTRUMENT"
+appointmentSignatoryDetailsString="AMOUNT"
+KMPSignatoryDetailsString="RATING"
+
+nameSignatoryDetails=[]
+PANSignatoryDetails=[]
+designationSignatoryDetails=[]
+appointmentSignatoryDetails=[]
+KMPSignatoryDetails=[]
+# =========================================================VREDIT RATING===================================================================
+
+agencyString= "AGENCY"
+ratingDateString="RATING DATE"
+instrumentString="INSTRUMENT"
+amountCreditRatingString="AMOUNT"
+ratingCreditString="RATING"
+
+agencyName=[]
+ratingDate=[]
+instrumentData=[]
+amountCreditRating=[]
+ratingCreditRating =[]
+# ===================================================================OWNERSHIP DETAILS=====================================================
+
+
+stakeholderNameString= "STAKEHOLDER NAME"
+FY2018_2019String="FY 2018-2019 DATA"
+FY2019_2020String="FY 2019-2020 DATA"
+FY2020_2021String="FY 2020-2021 DATA"
+
+
+stakeholderNameOwnershipDetails=[]
+FY2018_2019OwnershipDetails=[]
+FY2019_2020OwnershipDetails=[]
+FY2020_2021OwnershipDetails=[]
+
+# ====================================================================HOLDING SUBSIDIARY========================================================
+nameOfTheCompanyString= "NAME OF THE COMPANY"
+cin_fcrnString="CIN/FCRN DATA"
+holdingSubAssociateString="HOLDING SUBSIDIARY DATA"
+percentOfSharesHeldString="% OF SHARES HELD"
+
+nameOFCompany=[]
+cin_frcnHoldingSubsi=[]
+holdingSubsidiaryAssociate=[]
+percentOfSharesHeld=[]
+
+# ===============================================EFILFING==================================================================
+particularsFilingsString="PARTICULARS"
+FY2018_2019FilingsString="FY 2018-2019 DATA"
+FY2019_2020FilingsString="FY 2019-2020 DATA"
+FY2020_2021FilingsString="FY 2020-2021 DATA"
+
+particularsFilings=[]
+FY2018_2019Filings=[]
+FY2019_2020Filings=[]
+FY2020_2021Filings=[]
+
+# ==================================OPEN CHARGES=====================================================
+chargeHolderOpenChargesString = "CHARGE HOLDER"
+amountOpenChargesString = "AMOUNT"
+outstandingYearsOpenChargesString="OUTSTANDING YEARS"
+dateOfCreationOpenChargesString ="DATE OF CREATION"
+dateOfModificationOpenChargesString ="DATE OF MODIFICATION"
+assestsSecuredOpenChargesString="ASSESTS SECURED"
+
+chargeHolderOpenCharges =[]
+amountOpenCharges=[]
+outstandingYearsOpenCharges=[]
+dateOfCreationOpenCharges =[]
+dateOfModificationOpenCharges =[]
+assestsSecuredOpenCharges=[]
+
+# ============================================================SATISFIED CHARGES===================================================
+chargeHolderSatisfiedChargesString = "CHARGE HOLDER"
+amountSatisfiedChargesString = "AMOUNT"
+outstandingYearsSatisfiedChargesString="OUTSTANDING YEARS"
+dateOfCreationSatisfiedChargesString ="DATE OF CREATION"
+dateOfSatisfactionSatisfiedChargesString ="DATE OF SATISFACTION"
+assestsSecuredSatisfiedChargesString="ASSESTS SECURED"
+
+chargeHolderSatisfiedCharges =[]
+amountSatisfiedCharges=[]
+outstandingYearsSatisfiedCharges=[]
+dateOfCreationSatisfiedCharges =[]
+dateOfSatisfactionSatisfiedCharges =[]
+assestsSecuredSatisfiedCharges=[]
+
+# =====================================================AUDITORS INFORMATION================================================================
+
+auditFirmNameString = "AUDIT FIRM NAME"
+regisrationNumberString = "REGISTRATION NUMBER"
+auditorsNameString="AUDITORS NAME"
+membershipNumberString ="MEMBERSHIP NUMBER"
+audiorsAddressString ="AUDITORS ADDRESS"
+PANAuditorsDetailsString="PAN"
+
+auditFirmName=[]
+regisrationNumberAuditorsDetails=[]
+auditorsName=[]
+membershipNumberAuditorsDetails =[]
+audiorsAddress=[]
+PANAuditorsDetails=[]
+
+# ====================================================================
+wb_obj = openpyxl.load_workbook("CompanyLLP.xlsx")
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+print(m_row)
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1) 
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    if head_obj.value=="cin" :
+        cin.append(val_obj.value)
+        # print(val_obj.value)
+    elif head_obj.value =="Company Name" :
+        companyName.append(val_obj.value)
+        # print(val_obj.value)        
+    elif head_obj.value =="Age" :
+        age.append(val_obj.value)
+        # print(val_obj.value)
+    elif head_obj.value =="Company Category" :
+        companyType.append(val_obj.value)
+        # print(val_obj.value)
+    elif head_obj.value =="Company SubCategory" :
+        companySubCategory.append(val_obj.value)
+        # print(val_obj.value)
+    elif head_obj.value =="Email Id":
+        emailID.append(val_obj.value)
+        # print(val_obj.value)
+    elif head_obj.value =="ACTIVE compliance":
+        activeCompliance.append(val_obj.value)
+        # print(val_obj.value)
+        
+    elif head_obj.value =="Registered Address":
+        companyAddress.append(val_obj.value)
+        # print(val_obj.value)
+        
+    elif head_obj.value =="Date of Balance Sheet":
+        dateOfBalanceSheet.append(val_obj.value)
+        # print(val_obj.value)
+        
+    elif head_obj.value =="Paid up Capital(Rs)":
+        paidUpCapital.append(val_obj.value)
+        # print(val_obj.value)
+    
+    else:
+        continue
+
+# for x in range(len(paidUpCapital)):
+#   print(paidUpCapital[x])
+
+# for x in range(len(cin)):
+#   print(cin[x])
+
+# print(cin[0])
+# =================================================================CURRENT DIRECTORS KMP ===========================================================
+
+wb_obj = openpyxl.load_workbook("Current Directors.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+print(m_row)
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    # print(head_obj.value)
+    # print(val_obj.value)
+    
+    if search(companyDirectorsKMPString, str(head_obj.value)):     
+       if(val_obj.value==None):
+           continue      
+       else:
+           companyDirectorsKMP.append(val_obj.value)
+    #    print(val_obj.value)
+    
+    elif search(dinKMPString, str(head_obj.value)):
+        if(val_obj.value==None):
+           continue      
+        else:
+            dinKMP.append(val_obj.value)
+        # print(val_obj.value)
+    
+    elif search(designationKMPString, str(head_obj.value)):
+       if(val_obj.value==None):
+           continue      
+       else:
+            designationKMP.append(val_obj.value)
+        
+    
+    elif search(appointmentDateKMPString, str(head_obj.value)):
+       if(val_obj.value==None):
+           continue      
+       else:
+            appointmentDateKMP.append(val_obj.value)
+        
+    elif search(sharesHoldingKMPString, str(head_obj.value)):
+       if(val_obj.value==None):
+           continue      
+       else:
+           sharesHoldingKMP.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+
+# print(len(dinKMP))    
+# for x in range(len(companyDirectorsKMP)):
+#   print(companyDirectorsKMP[x])
+# for x in range(len(amount)):
+#   print(amount[x])
+# for x in range(len(chargeHolder)):
+#   print(chargeHolder[x])
+# for x in range(len(dateOfCreation)):
+#   print(dateOfCreation[x])
+
+
+
+        
+# ==========================================================PAST DIRECTORS/ PAST SIGNATORY====================================================
+wb_obj = openpyxl.load_workbook("Past Directors.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(pastCompanyDirectorsKMPString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+           pastCompanyDirectorsKMP.append(val_obj.value)
+       
+    
+    elif search(pastDinKMPString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           pastDinKMP.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(pastDesignationKMPString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           pastDesignationKMP.append(val_obj.value)
+    
+    elif search(pastAppointmentDateKMPString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          pastAppointmentDateKMP.append(val_obj.value)
+        
+    elif search(pastCessationDateString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          pastCessationDateKMP.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+        
+
+# print(len(pastAppointmentDateKMP))
+# for x in range(len(pastDinKMP)):
+#   print(pastDinKMP[x])
+# ================================================================SIGNATORY DETAILS=========================================================
+wb_obj = openpyxl.load_workbook("Signatory Details.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(nameSignatoryDetailsString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          nameSignatoryDetails.append(val_obj.value)
+          
+       
+    
+    elif search(PANSignatoryDetailsString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           PANSignatoryDetails.append(val_obj.value)
+          
+           
+        
+    elif search(designationSignatoryDetailsString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           designationSignatoryDetails.append(val_obj.value)
+        
+    
+    elif search(appointmentSignatoryDetailsString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          appointmentSignatoryDetails.append(val_obj.value)
+          
+        
+    elif search(KMPSignatoryDetailsString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          KMPSignatoryDetails.append(val_obj.value)
+          print(val_obj.value)
+    
+    else:
+        # print("done")      
+        continue
+# ================================================================CREDIT RATINGS=============================================================
+wb_obj = openpyxl.load_workbook("Credit Rating.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+print(m_row)
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(agencyString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          agencyName.append(val_obj.value)
+        
+    elif search(ratingDateString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           ratingDate.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(instrumentString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           instrumentData.append(val_obj.value)
+    
+    elif search(amountCreditRatingString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          amountCreditRating.append(val_obj.value)
+        
+    elif search(ratingCreditString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          ratingCreditRating.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+
+# ==================================================================OWNERSHIP DETAILS========================================================
+
+wb_obj = openpyxl.load_workbook("Ownership Details.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(stakeholderNameString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          stakeholderNameOwnershipDetails.append(val_obj.value)
+       
+    
+    elif search(FY2018_2019String, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           FY2018_2019OwnershipDetails.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(FY2019_2020String, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           FY2019_2020OwnershipDetails.append(val_obj.value)
+    
+    elif search(FY2020_2021String, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          FY2020_2021OwnershipDetails.append(val_obj.value)
+        
+    
+    else:
+        # print("done")
+        continue
+    
+# =============================================================HOLDING SUBSIDIARY=============================================================
+wb_obj = openpyxl.load_workbook("Holding Subsidiary.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(nameOfTheCompanyString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          nameOFCompany.append(val_obj.value)
+       
+    
+    elif search(cin_fcrnString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           cin_frcnHoldingSubsi.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(holdingSubAssociateString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+          holdingSubsidiaryAssociate.append(val_obj.value)
+    
+    elif search(percentOfSharesHeldString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+         percentOfSharesHeld.append(val_obj.value)
+         
+    else:
+        # print("done")
+        continue
+    
+# ================================================================EFILING STATUS
+wb_obj = openpyxl.load_workbook("Efiling Data.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)  
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(particularsFilingsString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          particularsFilings.append(val_obj.value)
+       
+    
+    elif search(FY2018_2019FilingsString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           FY2018_2019Filings.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(FY2019_2020FilingsString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           FY2019_2020Filings.append(val_obj.value)
+    
+    elif search(FY2020_2021FilingsString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          FY2020_2021Filings.append(val_obj.value)
+            
+    else:
+        # print("done")
+        continue
+    
+# ======================================================================OPEN CHARGES==========================================================================
+wb_obj = openpyxl.load_workbook("Open Charges.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(chargeHolderOpenChargesString , str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+         chargeHolderOpenCharges.append(val_obj.value)
+       
+    
+    elif search(amountOpenChargesString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           amountOpenCharges.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(outstandingYearsOpenChargesString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           outstandingYearsOpenCharges.append(val_obj.value)
+    
+    elif search(dateOfCreationOpenChargesString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          dateOfCreationOpenCharges.append(val_obj.value)
+        
+    elif search(dateOfModificationOpenChargesString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          dateOfModificationOpenCharges.append(val_obj.value)
+          
+    elif search(assestsSecuredOpenChargesString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          assestsSecuredOpenCharges.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+
+# =========================================================================SATISFIES CHARGES==========================================
+wb_obj = openpyxl.load_workbook("Satisfied Charges.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(chargeHolderSatisfiedChargesString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+           continue      
+      else:
+          chargeHolderSatisfiedCharges.append(val_obj.value)
+       
+    
+    elif search(amountSatisfiedChargesString, str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           continue      
+        else:
+           amountSatisfiedCharges.append(val_obj.value)
+           print(val_obj.value)
+        
+    elif search(outstandingYearsSatisfiedChargesString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           continue      
+       else:
+           outstandingYearsSatisfiedCharges.append(val_obj.value)
+    
+    elif search(dateOfCreationSatisfiedChargesString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           continue      
+        else:
+          dateOfCreationSatisfiedCharges.append(val_obj.value)
+        
+    elif search(dateOfSatisfactionSatisfiedChargesString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          dateOfSatisfactionSatisfiedCharges.append(val_obj.value)
+          
+    elif search(assestsSecuredSatisfiedChargesString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           continue      
+       else:
+          assestsSecuredSatisfiedCharges.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+    
+# ============================================AUDITORS================================================================================
+
+wb_obj = openpyxl.load_workbook("Auditors Details.xlsx")
+
+sheet_obj = wb_obj.active
+m_row = sheet_obj.max_row
+
+for i in range(1, m_row + 1):
+    head_obj = sheet_obj.cell(row = i, column = 1)
+   
+    val_obj = sheet_obj.cell(row = i, column = 2)
+    
+    if search(auditFirmNameString, str(head_obj.value)):
+      
+      if(val_obj.value==None):
+        auditFirmName.append('-')     
+      else:
+         auditFirmName.append(val_obj.value)
+       
+    
+    elif search(regisrationNumberString , str(head_obj.value)):
+       
+        if(val_obj.value==None):
+           regisrationNumberAuditorsDetails.append('-')     
+        else:
+           regisrationNumberAuditorsDetails.append(val_obj.value)
+        #    print(val_obj.value)
+        
+    elif search(auditorsNameString, str(head_obj.value)):
+       
+       if(val_obj.value==None):
+           auditorsName.append('-')      
+       else:
+           auditorsName.append(val_obj.value)
+    
+    elif search(membershipNumberString, str(head_obj.value)):
+      
+        if(val_obj.value==None):
+           membershipNumberAuditorsDetails.append('-')       
+        else:
+          membershipNumberAuditorsDetails.append(val_obj.value)
+        
+    elif search(audiorsAddressString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+           audiorsAddress.append('-') 
+       else:
+          audiorsAddress.append(val_obj.value)
+          
+    elif search(PANAuditorsDetailsString, str(head_obj.value)):
+      
+       if(val_obj.value==None):
+        PANAuditorsDetails.append('-')  
+       else:
+          PANAuditorsDetails.append(val_obj.value)
+    
+    else:
+        # print("done")
+        continue
+    
+# ======================================================================WORKBOOK==============================================================
+
+
+book = openpyxl.load_workbook('Book5.xlsx')
+sheet = book.active
+
+sheet.column_dimensions['B'].width = 30
+sheet.column_dimensions['D'].width = 30
+sheet.column_dimensions['C'].width = 50
+sheet.column_dimensions['E'].width = 50
+sheet.column_dimensions['F'].width = 50
+
+# ================================================================COMPANY DETAILS===============================================================
+sheet['B2'] = "Company Details"
+sheet['B2'].font = Font(bold=True)
+sheet["B2"].fill = PatternFill("solid", start_color="00800000")
+sheet['B2'].font = Font(size=11)
+sheet['D3'] ="Report Number"
+sheet['D3'].font = Font(bold=True)
+sheet["D3"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B4']="CIN"
+sheet['B4'].font = Font(bold=True)
+sheet["B4"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B5'] = "AgE"
+sheet['B5'].font = Font(bold=True)
+sheet["B5"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B6'] ="Company Status"
+sheet['B6'].font = Font(bold=True)
+sheet["B6"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B7']="Company Type"
+sheet['B7'].font = Font(bold=True)
+sheet["B7"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B8'] ="Company Sub Category"
+sheet['B8'].font = Font(bold=True)
+sheet["B8"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B9'] ="Email ID"
+sheet['B9'].font = Font(bold=True)
+sheet["B9"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B10']= "Company Website"
+sheet['B10'].font = Font(bold=True)
+sheet["B10"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B11'] ="Industry"
+sheet['B11'].font = Font(bold=True)
+sheet["B11"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B12'] ="SIC"
+sheet['B12'].font = Font(bold=True)
+sheet["B12"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B13'] ="Description"
+sheet['B13'].font = Font(bold=True)
+sheet["B13"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B14'] ="Statutory Registration"
+sheet['B14'].font = Font(bold=True)
+sheet["B14"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['C14'] ="PAN"
+sheet['C14'].font = Font(bold=True)
+
+sheet['C16'] ="GST:"
+sheet['C16'].font = Font(bold=True)
+
+sheet['C17'] ="EPF0:"
+sheet['C17'].font = Font(bold=True)
+
+sheet['D5']= "Balance Sheet Date"
+sheet['D5'].font = Font(bold=True)
+sheet["D5"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D6']= "Paid Up Capital"
+sheet['D6'].font = Font(bold=True)
+sheet["D6"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D7']= "Profit/ (Loss) After Tax"
+sheet['D7'].font = Font(bold=True)
+sheet["D7"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D8']= "Open Charges"
+sheet['D8'].font = Font(bold=True)
+sheet["D8"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D9']= "Director / Signatory"
+sheet['D9'].font = Font(bold=True)
+sheet["D9"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D10']= "ACTIVE compliance"
+sheet['D10'].font = Font(bold=True)
+sheet["D10"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D11']= "Company Address"
+sheet['D11'].font = Font(bold=True)
+sheet["D11"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D12']= "Main_Group"
+sheet['D12'].font = Font(bold=True)
+sheet["D12"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D13']= "Sub_Group"
+sheet['D13'].font = Font(bold=True)
+sheet["D13"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D14']= "Correspondence Address:"
+sheet['D14'].font = Font(bold=True)
+sheet["D14"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['D26']= "Contact Number"
+sheet['D26'].font = Font(bold=True)
+sheet["D26"].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['B26']= "Listing"
+sheet['B26'].font = Font(bold=True)
+sheet["B26"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['C4']=cin[0]
+sheet['C5']=age[0]
+sheet['C7']=companyType[0]
+sheet['C8']=companySubCategory[0]
+sheet['C9']=emailID[0]
+sheet['E10']=activeCompliance[0]
+sheet['E11']=companyAddress[0]
+sheet['E5']=dateOfBalanceSheet[0]
+sheet['E6']=paidUpCapital[0]
+
+# ======================================================================OPERATION DETAILS=======================================================
+
+sheet['B30']= "Operation Details"
+sheet['B30'].font = Font(bold=True)
+sheet["B30"].fill = PatternFill("solid", start_color="00800000")
+
+sheet['B31']= "Employee across country"
+sheet['B31'].font = Font(bold=True)
+sheet["B31"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['B32']= "Tax Payer"
+sheet['B32'].font = Font(bold=True)
+sheet["B32"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['B33']= "No. of Customers"
+sheet['B33'].font = Font(bold=True)
+sheet["B33"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['B34']= "Business Group"
+sheet['B34'].font = Font(bold=True)
+sheet["B34"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D31']= "Employees at location"
+sheet['D31'].font = Font(bold=True)
+sheet["D31"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D32']= "Company Auditor"
+sheet['D32'].font = Font(bold=True)
+sheet["D32"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D33']= "Type of Customers"
+sheet['D33'].font = Font(bold=True)
+sheet["D33"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D34']= "Other Entities in Group"
+sheet['D34'].font = Font(bold=True)
+sheet["D34"].fill = PatternFill("solid", start_color="00C0C0C0")
+
+
+book.save("Book5.xlsx")
+
+book = openpyxl.load_workbook('Book5.xlsx')
+sheet = book.active
+
+sheet.column_dimensions['B'].width = 30
+sheet.column_dimensions['D'].width = 30
+sheet.column_dimensions['C'].width = 50
+sheet.column_dimensions['E'].width = 50
+sheet.column_dimensions['F'].width = 50
+
+k=37
+for i in range(1, 2):
+    #============================================CURRENT DIRECTORS================================================= 
+    #k=37
+    print(k)
+    sheet['B'+str(k)]= "Key Managerial Persons"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1    #k=38
+    # print(k)
+    sheet['B'+str(k)]= "Current Directors/ Proprietor"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1     #k=39
+
+    sheet['B'+str(k)]= "Company Directors"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= "DIN"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "Designation"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    sheet['E'+str(k)]= "Appointment Date"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['F'+str(k)]="Shares Holding"
+    sheet['F'+str(k)].font = Font(bold=True)
+    sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    # print(k)
+    k=k+1
+    
+    for j in range(0,len(companyDirectorsKMP)-1):
+            # print(k)
+            sheet['B'+str(k)]=companyDirectorsKMP[j]
+            # print(companyDirectorsKMP[j])
+            # print(sheet['B'+str(k)])
+            
+            sheet['C'+str(k)]=dinKMP[j]
+            # print(dinKMP[j])
+        
+            sheet['D'+str(k)]=designationKMP[j]
+            # print(designationKMP[j]) 
+
+            sheet['E'+str(k)]=appointmentDateKMP[j]
+            # print(appointmentDateKMP[j]) 
+    
+            k=k+1   
+    k=k+1
+        
+    # ======================================================================PAST SIGNATORIES
+    # print(k)
+    sheet['B'+str(k)]= "Past Directors/ Past Signatories"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1     #k=39
+
+    sheet['B'+str(k)]= "Company Directors"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= " Director DIN"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "Designation"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    sheet['E'+str(k)]= "Appointment Date"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['F'+str(k)]="Cessastion Date"
+    sheet['F'+str(k)].font = Font(bold=True)
+    sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    # print(k)
+    k=k+1
+    
+    
+    if len(pastCompanyDirectorsKMP)==0:
+        k=k+2
+    else:
+        for j in range(0,len(pastCompanyDirectorsKMP)-1):
+            
+            sheet['B'+str(k)]=pastCompanyDirectorsKMP[j]
+    
+            sheet['C'+str(k)]=pastDinKMP[j]
+            
+            sheet['D'+str(k)]=pastDesignationKMP[j]
+           
+            sheet['E'+str(k)]=pastAppointmentDateKMP[j]
+           
+            sheet['F'+str(k)]=pastCessationDateKMP[j]
+    
+            k=k+1  
+            
+    k=k+1
+    # ================================================================SIGNATORY DETAILS====================================================
+    sheet['B'+str(k)]= "Signatory Details"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1     #k=39
+
+    sheet['B'+str(k)]= "Company Directors"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= " Director DIN"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "Designation"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    sheet['E'+str(k)]= "Appointment Date"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['F'+str(k)]="KMP"
+    sheet['F'+str(k)].font = Font(bold=True)
+    sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    k=k+1
+    if len(nameSignatoryDetails)==0:
+        k=k+2
+    else:
+        for j in range(0,len(nameSignatoryDetails)):
+            
+            sheet['B'+str(k)]=nameSignatoryDetails[j]
+            
+            sheet['C'+str(k)]=PANSignatoryDetails[j]
+            
+            sheet['D'+str(k)]=designationSignatoryDetails[j]
+           
+            sheet['E'+str(k)]=appointmentSignatoryDetails[j]
+           
+            sheet['F'+str(k)]=KMPSignatoryDetails[j]
+    
+  
+            k=k+1  
+    # ================================================================CREDIT RATING=====================================================
+    
+    
+    k=k+1 
+    sheet['B'+str(k)]= "Credit Ratings"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1  
+    sheet['B'+str(k)]= "Agency"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= "Rating Date"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "Instrument"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    sheet['E'+str(k)]= "Amount"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['F'+str(k)]="Rating"
+    sheet['F'+str(k)].font = Font(bold=True)
+    sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+    k=k+1
+    if len(agencyName)==0:
+        k=k+2
+    else:
+        for j in range(0,len(agencyName)):
+            
+            sheet['B'+str(k)]=agencyName[j]
+    
+            sheet['C'+str(k)]=ratingDate[j]
+            
+            sheet['D'+str(k)]=instrumentData[j]
+           
+            sheet['E'+str(k)]=amountCreditRating[j]
+           
+            sheet['F'+str(k)]=ratingCreditRating[j]
+    
+            k=k+1  
+            
+    k=k+1
+# ===============================================OWNERSHIP DETAILS==========================================================================
+    sheet['B'+str(k)]= "Ownership Details(%)"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1     #k=39
+
+    sheet['B'+str(k)]= "Stakeholder's Name"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= "FY 2018-2019"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "FY 2019-2020"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+    sheet['E'+str(k)]= "FY 2020-2021"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    k=k+1
+    if len(stakeholderNameOwnershipDetails)==0:
+        k=k+2
+    else:
+        for j in range(0,len(stakeholderNameOwnershipDetails)):
+            
+            sheet['B'+str(k)]=stakeholderNameOwnershipDetails[j]
+    
+            sheet['C'+str(k)]=FY2018_2019OwnershipDetails[j]
+            
+            sheet['D'+str(k)]=FY2019_2020OwnershipDetails[j]
+           
+            sheet['E'+str(k)]=FY2020_2021OwnershipDetails[j]
+    
+            k=k+1  
+            
+    k=k+1
+
+# ==============================================================HOLDING SUBSIDIARY===================================================
+
+    sheet['B'+str(k)]= "Particulars of Holding,Subsidiary and Associate Comapnies(Including Joint Venture)"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+    k=k+1  
+    sheet['B'+str(k)]= "Name of the company"
+    sheet['B'+str(k)].font = Font(bold=True)
+    sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['C'+str(k)]= "CIN/FCRN"
+    sheet['C'+str(k)].font = Font(bold=True)
+    sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+    sheet['D'+str(k)]= "Holding/Subsidiary/Associate/Joint Venture"
+    sheet['D'+str(k)].font = Font(bold=True)
+    sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+    sheet['E'+str(k)]= "% of shares held"
+    sheet['E'+str(k)].font = Font(bold=True)
+    sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    k=k+1
+    if len(nameOFCompany)==0:
+            k=k+2
+    else:
+            for j in range(0,len(nameOFCompany)):
+                
+                sheet['B'+str(k)]=nameOFCompany[j]
+        
+                sheet['C'+str(k)]=cin_frcnHoldingSubsi[j]
+                
+                sheet['D'+str(k)]=holdingSubsidiaryAssociate[j]
+            
+                sheet['E'+str(k)]=percentOfSharesHeld[j]
+            
+        
+        
+                k=k+1  
+                
+    k=k+1 
+    
+# ====================================================EFILING STATUS=====================================================
+sheet['B'+str(k)]= "MCA Filings"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+
+k=k+1
+   
+sheet['B'+str(k)]= "Particulars"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['C'+str(k)]= "FY 2018-2019"
+sheet['C'+str(k)].font = Font(bold=True)
+sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D'+str(k)]= "FY 2019-2020"
+sheet['D'+str(k)].font = Font(bold=True)
+sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+sheet['E'+str(k)]= "FY 2020-2021"
+sheet['E'+str(k)].font = Font(bold=True)
+sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+k=k+1
+
+if len(particularsFilings)==0:
+        k=k+2
+else:
+        for j in range(0,len(particularsFilings)):
+            
+            sheet['B'+str(k)]=particularsFilings[j]
+    
+            sheet['C'+str(k)]=FY2018_2019Filings[j]
+            
+            sheet['D'+str(k)]=FY2019_2020Filings[j]
+           
+            sheet['E'+str(k)]=FY2020_2021Filings[j]
+    
+            k=k+1  
+k=k+1
+    
+# ==========================================================OPEN CHARGES==============================================================================
+sheet['B'+str(k)]= "Bank -Wise"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+k=k+1
+sheet['B'+str(k)]= "Open Charges[Amount in Lakhs] "
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+k=k+1
+sheet['B'+str(k)]= "Charge Holder "
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['C'+str(k)]= "Amount (Rs in Lakhs)"
+sheet['C'+str(k)].font = Font(bold=True)
+sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D'+str(k)]= "Outstanding Years"
+sheet['D'+str(k)].font = Font(bold=True)
+sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+sheet['E'+str(k)]= "Creation Date"
+sheet['E'+str(k)].font = Font(bold=True)
+sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['F'+str(k)]="Last Modification Date"
+sheet['F'+str(k)].font = Font(bold=True)
+sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['G'+str(k)]="Assets Secured"
+sheet['G'+str(k)].font = Font(bold=True)
+sheet['G'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+k=k+1
+
+if len(chargeHolderOpenCharges)==0:
+        k=k+2
+else:
+        for j in range(0,len(chargeHolderOpenCharges)):
+            
+            sheet['B'+str(k)]=chargeHolderOpenCharges[j]
+    
+            sheet['C'+str(k)]=amountOpenCharges[j]
+            
+            sheet['D'+str(k)]=outstandingYearsOpenCharges[j]
+           
+            sheet['E'+str(k)]=dateOfCreationOpenCharges [j]
+           
+            sheet['F'+str(k)]=dateOfModificationOpenCharges[j]
+            
+            sheet['G'+str(k)]=assestsSecuredOpenCharges[j]
+    
+            k=k+1  
+            
+k=k+1
+# ==========================================================================SATISFIED CHARGES===================================================
+sheet['B'+str(k)]= "Satisfied Charges[Amount in Lakhs] "
+sheet['B'+str(k)].font = Font(bold=True) 
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+k=k+1
+sheet['B'+str(k)]= "Charge Holder "
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['C'+str(k)]= "Amount (Rs in Lakhs)"
+sheet['C'+str(k)].font = Font(bold=True)
+sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['D'+str(k)]= "Outstanding Years"
+sheet['D'+str(k)].font = Font(bold=True)
+sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+    
+sheet['E'+str(k)]= "Creation Date"
+sheet['E'+str(k)].font = Font(bold=True)
+sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['F'+str(k)]="Last Satisfaction Date"
+sheet['F'+str(k)].font = Font(bold=True)
+sheet['F'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+sheet['G'+str(k)]="Assets Secured"
+sheet['G'+str(k)].font = Font(bold=True)
+sheet['G'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+
+k=k+1
+if len(chargeHolderSatisfiedCharges)==0:
+        k=k+2
+else:
+        for j in range(0,len(chargeHolderSatisfiedCharges)):
+            
+            sheet['B'+str(k)]=chargeHolderSatisfiedCharges[j]
+    
+            sheet['C'+str(k)]=amountSatisfiedCharges[j]
+            
+            sheet['D'+str(k)]=outstandingYearsSatisfiedCharges[j]
+           
+            sheet['E'+str(k)]=dateOfCreationSatisfiedCharges[j]
+           
+            sheet['F'+str(k)]=dateOfSatisfactionSatisfiedCharges[j]
+            
+            sheet['G'+str(k)]=assestsSecuredSatisfiedCharges[j]
+    
+            k=k+1  
+            
+k=k+1
+
+# ===================================AUDITORS INFORMATION==================================================
+sheet['B'+str(k)]= "Auditors Details"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+k=k+1  
+sheet['B'+str(k)]= "Element Name/Years"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00800000")
+                      
+sheet['C'+str(k)]= "FY 2018-2019"
+sheet['C'+str(k)].font = Font(bold=True)
+sheet['C'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['D'+str(k)]= "FY 2019-2020"
+sheet['D'+str(k)].font = Font(bold=True)
+sheet['D'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+sheet['E'+str(k)]= "FY 2020-2021"
+sheet['E'+str(k)].font = Font(bold=True)
+sheet['E'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+k=k+1
+        
+sheet['B'+str(k)]= "Audit Firm Name"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= auditFirmName[0]
+sheet['D'+str(k)]= auditFirmName[1]
+sheet['E'+str(k)]= auditFirmName[2]
+        
+k=k+1
+        
+sheet['B'+str(k)]= "Registration Number"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= regisrationNumberAuditorsDetails[0]
+sheet['D'+str(k)]= regisrationNumberAuditorsDetails[1]
+sheet['E'+str(k)]= regisrationNumberAuditorsDetails[2]
+        
+k=k+1
+sheet['B'+str(k)]= "Auditors Name"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= auditorsName[0]
+sheet['D'+str(k)]= auditorsName[1]
+sheet['E'+str(k)]= auditorsName[2]
+        
+k=k+1
+        
+sheet['B'+str(k)]= "Membership Number"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= membershipNumberAuditorsDetails[0]
+sheet['D'+str(k)]= membershipNumberAuditorsDetails[1]
+sheet['E'+str(k)]= membershipNumberAuditorsDetails[2]
+        
+k=k+1
+        
+sheet['B'+str(k)]= "Auditor Address"
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= audiorsAddress[0]
+sheet['D'+str(k)]= audiorsAddress[1]
+sheet['E'+str(k)]= audiorsAddress[2]
+        
+k=k+1
+        
+sheet['B'+str(k)]= "PAN "
+sheet['B'+str(k)].font = Font(bold=True)
+sheet['B'+str(k)].fill = PatternFill("solid", start_color="00C0C0C0")
+        
+sheet['C'+str(k)]= PANAuditorsDetails[0]
+sheet['D'+str(k)]= PANAuditorsDetails[1]
+sheet['E'+str(k)]= PANAuditorsDetails[2]
+
+        
+book.save("Book5.xlsx") 
